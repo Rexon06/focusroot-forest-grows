@@ -72,12 +72,12 @@ export function parseStudyCards(content: string): StudyCard[] {
     const underline = /^\s*(=+|-{3,})\s*$/.test(line) && para.length === 1;
     if (heading) {
       flushPara();
-      current = { title: cleanInline(heading[1]), paras: [] };
+      current = { title: cleanInline(heading[1] ?? ""), paras: [] };
       sections.push(current);
     } else if (underline) {
       const title = para[0];
       para = [];
-      current = { title: cleanInline(title), paras: [] };
+      current = { title: cleanInline(title ?? ""), paras: [] };
       sections.push(current);
     } else if (!line.trim()) {
       flushPara();

@@ -31,16 +31,19 @@ export function generateFlashcards(content: string, limit = 40): QA[] {
     const line = raw.replace(/^\s*[-*+]\s+|^\s*\d+[.)]\s+/, "").replace(/\*\*|__|`/g, "").trim();
     if (!line || line.startsWith("#")) continue;
     const def = /^([^:=–—]{2,60}?)\s*(?::|=|\s[-–—]\s)\s*(.{3,})$/.exec(line);
-    if (def && def[1].split(" ").length <= 7 && !/https?$/i.test(def[1])) {
-      push(`What is ${def[1].trim()}?`, def[2]);
+    const term = def?.[1];
+    const meaning = def?.[2];
+    if (term && meaning && term.split(" ").length <= 7 && !/https?$/i.test(term)) {
+      push(`What is ${term.trim()}?`, meaning);
       continue;
     }
     const sentences = line.split(/(?<=[.!?])\s+/);
     for (const s of sentences) {
       const m = /^((?:The |A |An )?[A-Z][\w\s'()-]{1,50}?)\s+(is|are|means|refers to|was|were)\s+(.{6,})$/.exec(s);
-      if (m && m[1].split(" ").length <= 6) {
+      const subj = m?.[1];
+      if (m && subj && subj.split(" ").length <= 6) {
         const verb = m[2] === "are" || m[2] === "were" ? "are" : "is";
-        push(`What ${verb} ${m[1].replace(/^(The|A|An) /, (x) => x.toLowerCase())}?`, `${m[1]} ${m[2]} ${m[3]}`);
+        push(`What ${verb} ${subj.replace(/^(The|A|An) /, (x) => x.toLowerCase())}?`, `${subj} ${m[2]} ${m[3]}`);
       }
     }
   }

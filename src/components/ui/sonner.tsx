@@ -1,19 +1,32 @@
+import type { CSSProperties } from "react";
 import { Toaster as Sonner } from "sonner";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
+const pixelToastVars = {
+  "--normal-bg": "var(--panel)",
+  "--normal-text": "var(--foreground)",
+  "--normal-border": "var(--outline)",
+  "--success-bg": "var(--panel)",
+  "--success-text": "var(--foreground)",
+  "--success-border": "var(--outline)",
+  "--error-bg": "var(--panel)",
+  "--error-text": "var(--foreground)",
+  "--error-border": "var(--destructive)",
+  "--border-radius": "0px",
+} as CSSProperties;
+
 const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
+      theme="dark"
       className="toaster group"
+      style={pixelToastVars}
       toastOptions={{
         classNames: {
-          toast:
-            "group toast group-[.toaster]:pixel-panel group-[.toaster]:rounded-none group-[.toaster]:text-foreground group-[.toaster]:font-body group-[.toaster]:text-base",
+          toast: "!border-[3px] !shadow-[4px_4px_0_0_var(--outline)] font-body !text-base",
           title: "font-pixel !text-[10px] leading-relaxed",
-          description: "group-[.toast]:text-muted-foreground",
-          actionButton: "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
-          cancelButton: "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
+          description: "!text-muted-foreground",
         },
       }}
       {...props}

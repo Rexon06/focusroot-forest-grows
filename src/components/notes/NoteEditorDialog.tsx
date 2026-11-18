@@ -17,16 +17,16 @@ export interface NoteDraft {
   subject: string;
   content: string;
   source: Note["source"];
-  fileName?: string;
+  fileName?: string | undefined;
 }
 
 interface Props {
   open: boolean;
   onOpenChange(open: boolean): void;
   /** Existing note to edit; omit to create. */
-  note?: Note;
-  initial?: Partial<NoteDraft>;
-  onSaved?(note: Note): void;
+  note?: Note | undefined;
+  initial?: Partial<NoteDraft> | undefined;
+  onSaved?: ((note: Note) => void) | undefined;
 }
 
 const EMPTY: NoteDraft = { title: "", subject: "", content: "", source: "manual" };

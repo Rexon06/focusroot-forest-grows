@@ -8,7 +8,9 @@ export function shuffle<T>(arr: T[], rand: () => number = Math.random): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(rand() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+    const tmp = a[i] as T;
+    a[i] = a[j] as T;
+    a[j] = tmp;
   }
   return a;
 }

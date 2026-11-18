@@ -50,7 +50,7 @@ const THEMES: { id: ThemeName; name: string; swatch: string }[] = [
 
 const AVATARS: AvatarName[] = ["sprout", "mushroom", "fox", "owl"];
 
-function Row({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+function Row({ label, hint, children }: { label: string; hint?: string | undefined; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-2 border-b-2 border-dashed border-outline py-3 last:border-0 sm:flex-row sm:items-center sm:justify-between">
       <div>
@@ -144,7 +144,7 @@ function SettingsPage() {
                 max={480}
                 step={15}
                 value={[settings.dailyGoalMinutes]}
-                onValueChange={([v]) => updateSettings({ dailyGoalMinutes: v })}
+                onValueChange={([v]) => v !== undefined && updateSettings({ dailyGoalMinutes: v })}
                 aria-label="Daily goal minutes"
               />
             </div>
@@ -196,7 +196,7 @@ function SettingsPage() {
                 max={1}
                 step={0.05}
                 value={[settings.soundVolume]}
-                onValueChange={([v]) => updateSettings({ soundVolume: v })}
+                onValueChange={([v]) => v !== undefined && updateSettings({ soundVolume: v })}
                 disabled={!settings.soundEnabled}
                 aria-label="Volume"
               />

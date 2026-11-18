@@ -58,7 +58,7 @@ function NotesPage() {
     if (!files?.length) return;
     setUploading(true);
     try {
-      if (files.length === 1) {
+      if (files.length === 1 && files[0]) {
         const r = await readNoteFile(files[0]);
         setInitial({ title: r.title, content: r.content, source: "upload", fileName: r.fileName, subject: subject ?? "" });
         setEditorOpen(true);

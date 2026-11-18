@@ -7,8 +7,8 @@ export function PreferencesSync() {
   const theme = useAppStore((s) => s.settings.theme);
   const reduceMotion = useAppStore((s) => s.settings.reduceMotion);
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    document.documentElement.dataset.reduceMotion = String(reduceMotion);
+    document.documentElement.dataset["theme"] = theme;
+    document.documentElement.dataset["reduceMotion"] = String(reduceMotion);
   }, [theme, reduceMotion]);
   return null;
 }

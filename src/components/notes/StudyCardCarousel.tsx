@@ -30,7 +30,7 @@ export function StudyCardCarousel({ cards, sourceTitle }: { cards: StudyCard[]; 
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.index));
+          if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset["index"]));
         });
       },
       { root, threshold: 0.6 },
@@ -118,7 +118,7 @@ export function StudyCardCarousel({ cards, sourceTitle }: { cards: StudyCard[]; 
               variant="outline"
               size="sm"
               disabled={!expanded || expanded.index <= 1}
-              onClick={() => expanded && setExpanded(cards[expanded.index - 2])}
+              onClick={() => expanded && setExpanded(cards[expanded.index - 2] ?? null)}
             >
               <ChevronLeft /> Prev
             </Button>
@@ -126,7 +126,7 @@ export function StudyCardCarousel({ cards, sourceTitle }: { cards: StudyCard[]; 
               variant="outline"
               size="sm"
               disabled={!expanded || expanded.index >= cards.length}
-              onClick={() => expanded && setExpanded(cards[expanded.index])}
+              onClick={() => expanded && setExpanded(cards[expanded.index] ?? null)}
             >
               Next <ChevronRight />
             </Button>

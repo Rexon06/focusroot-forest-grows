@@ -162,8 +162,7 @@ function findFreeTile(tiles: GardenTile[]) {
   const free: { x: number; y: number }[] = [];
   for (let y = 0; y < rows; y++)
     for (let x = 0; x < GARDEN_COLS; x++) if (!used.has(`${x},${y}`)) free.push({ x, y });
-  if (free.length === 0) return { x: 0, y: rows };
-  return free[Math.floor(Math.random() * free.length)];
+  return free[Math.floor(Math.random() * free.length)] ?? { x: 0, y: rows };
 }
 
 function makeActivity(type: Activity["type"], text: string): Activity {
@@ -436,10 +435,8 @@ export const useAppStore = create<AppState>()(
       version: 1,
       storage: createJSONStorage(() => localStorage),
       skipHydration: true,
-      partialize: (s) => {
-        const { ...data } = s;
-        return Object.fromEntries(Object.entries(data).filter(([, v]) => typeof v !== "function")) as Data;
-      },
+      partialize: (s) =>
+        Object.fromEntries(Object.entries(s).filter(([, v]) => typeof v !== "function")) as unknown as Data,
       merge: (persisted, current) => {
         const p = (persisted ?? {}) as Partial<Data>;
         return {

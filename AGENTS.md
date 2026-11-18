@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## FocusRoot architecture
+- All app data lives in one persisted zustand store (`src/store/app-store.ts`, localStorage key `focusroot-v1`, `skipHydration`); pages render only after `useStoreHydrated()` so SSR never mismatches saved data.
+- The focus timer stores an absolute `endsAt` timestamp and derives remaining time from the clock; `TimerController` in `__root.tsx` completes sessions globally, so the timer survives navigation and reloads.
+- Pure rules (timer math, XP/levels/growth, note parsing, flashcard/quiz generation) live in `src/lib/*` and are covered by `src/lib/focusroot-rules.test.ts`.
+- Pixel art is drawn from string-grid sprites (`src/components/pixel/sprites.ts`) whose colors are `--px-*` CSS tokens, never hardcoded.
+- Study cards/flashcards/quizzes are rule-based (no AI); app blocking goes through the `BlockingAdapter` in `src/lib/blocking.ts` so a native Android shell can plug in later.

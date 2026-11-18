@@ -77,7 +77,7 @@ export interface Note {
   subject: string;
   content: string;
   source: "manual" | "upload";
-  fileName?: string;
+  fileName?: string | undefined;
   createdAt: number;
   updatedAt: number;
 }

@@ -6,9 +6,9 @@ import { ICONS, type IconName, type SpriteDef } from "./sprites";
 interface SpriteProps {
   sprite: SpriteDef;
   /** Rendered width in CSS px; height keeps the sprite aspect ratio. */
-  size?: number;
-  className?: string;
-  title?: string;
+  size?: number | undefined;
+  className?: string | undefined;
+  title?: string | undefined;
 }
 
 export const Sprite = memo(function Sprite({ sprite, size = 48, className, title }: SpriteProps) {
@@ -18,7 +18,7 @@ export const Sprite = memo(function Sprite({ sprite, size = 48, className, title
   sprite.rows.forEach((row, y) => {
     let x = 0;
     while (x < row.length) {
-      const ch = row[x];
+      const ch = row[x] ?? ".";
       const fill = sprite.palette[ch];
       if (!fill) {
         x++;
@@ -48,6 +48,6 @@ export const Sprite = memo(function Sprite({ sprite, size = 48, className, title
   );
 });
 
-export function PixelIcon({ name, size = 20, className, title }: { name: IconName; size?: number; className?: string; title?: string }) {
+export function PixelIcon({ name, size = 20, className, title }: { name: IconName; size?: number | undefined; className?: string | undefined; title?: string | undefined }) {
   return <Sprite sprite={ICONS[name]} size={size} className={className} title={title} />;
 }

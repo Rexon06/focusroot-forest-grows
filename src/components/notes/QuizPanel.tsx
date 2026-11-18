@@ -99,6 +99,7 @@ export function QuizPanel({ noteId }: { noteId: string }) {
   }
 
   const q = questions[qi];
+  if (!q) return null;
   const answered = picked !== null;
 
   const choose = (i: number) => {

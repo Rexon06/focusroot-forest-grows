@@ -12,6 +12,15 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { AppShell, LoadingForest } from "@/components/layout/AppShell";
+import { OnboardingDialog } from "@/components/layout/OnboardingDialog";
+import { PreferencesSync } from "@/components/layout/PreferencesSync";
+import { BreathingOverlay } from "@/components/focus/BreathingOverlay";
+import { ReminderDialog } from "@/components/focus/ReminderDialog";
+import { RewardDialog } from "@/components/focus/RewardDialog";
+import { TimerController } from "@/components/focus/TimerController";
+import { Toaster } from "@/components/ui/sonner";
+import { useStoreHydrated } from "@/store/app-store";
 
 function NotFoundComponent() {
   return (
@@ -81,14 +90,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "FocusRoot — Pixel Forest Focus & Study" },
+      { name: "description", content: "Grow a cozy pixel-art forest by focusing, studying notes and building better habits." },
+      { name: "theme-color", content: "#14261c" },
+      { property: "og:title", content: "FocusRoot — Pixel Forest Focus & Study" },
+      { property: "og:description", content: "Grow a cozy pixel-art forest by focusing, studying notes and building better habits." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -96,6 +104,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -120,11 +134,25 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const hydrated = useStoreHydrated();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <AppShell ready={hydrated}>
+        {/* Saved data lives on this device, so pages render once it has loaded. */}
+        {hydrated ? <Outlet /> : <LoadingForest />}
+      </AppShell>
+      {hydrated && (
+        <>
+          <PreferencesSync />
+          <TimerController />
+          <RewardDialog />
+          <ReminderDialog />
+          <BreathingOverlay />
+          <OnboardingDialog />
+        </>
+      )}
+      <Toaster position="top-center" />
     </QueryClientProvider>
   );
 }

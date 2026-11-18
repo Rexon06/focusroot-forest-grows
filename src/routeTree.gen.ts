@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DistractionsRouteImport } from './routes/distractions'
+import { Route as FocusRouteImport } from './routes/focus'
+import { Route as GardenRouteImport } from './routes/garden'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as NotesIndexRouteImport } from './routes/notes.index'
+import { Route as NotesNoteIdRouteImport } from './routes/notes.$noteId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DistractionsRoute = DistractionsRouteImport.update({
+  id: '/distractions',
+  path: '/distractions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FocusRoute = FocusRouteImport.update({
+  id: '/focus',
+  path: '/focus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GardenRoute = GardenRouteImport.update({
+  id: '/garden',
+  path: '/garden',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotesIndexRoute = NotesIndexRouteImport.update({
+  id: '/notes/',
+  path: '/notes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotesNoteIdRoute = NotesNoteIdRouteImport.update({
+  id: '/notes/$noteId',
+  path: '/notes/$noteId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/distractions': typeof DistractionsRoute
+  '/focus': typeof FocusRoute
+  '/garden': typeof GardenRoute
+  '/settings': typeof SettingsRoute
+  '/notes/$noteId': typeof NotesNoteIdRoute
+  '/notes/': typeof NotesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/distractions': typeof DistractionsRoute
+  '/focus': typeof FocusRoute
+  '/garden': typeof GardenRoute
+  '/settings': typeof SettingsRoute
+  '/notes/$noteId': typeof NotesNoteIdRoute
+  '/notes': typeof NotesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/distractions': typeof DistractionsRoute
+  '/focus': typeof FocusRoute
+  '/garden': typeof GardenRoute
+  '/settings': typeof SettingsRoute
+  '/notes/$noteId': typeof NotesNoteIdRoute
+  '/notes/': typeof NotesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/distractions'
+    | '/focus'
+    | '/garden'
+    | '/settings'
+    | '/notes/$noteId'
+    | '/notes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/distractions'
+    | '/focus'
+    | '/garden'
+    | '/settings'
+    | '/notes/$noteId'
+    | '/notes'
+  id:
+    | '__root__'
+    | '/'
+    | '/distractions'
+    | '/focus'
+    | '/garden'
+    | '/settings'
+    | '/notes/$noteId'
+    | '/notes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DistractionsRoute: typeof DistractionsRoute
+  FocusRoute: typeof FocusRoute
+  GardenRoute: typeof GardenRoute
+  SettingsRoute: typeof SettingsRoute
+  NotesNoteIdRoute: typeof NotesNoteIdRoute
+  NotesIndexRoute: typeof NotesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/distractions': {
+      id: '/distractions'
+      path: '/distractions'
+      fullPath: '/distractions'
+      preLoaderRoute: typeof DistractionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/focus': {
+      id: '/focus'
+      path: '/focus'
+      fullPath: '/focus'
+      preLoaderRoute: typeof FocusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/garden': {
+      id: '/garden'
+      path: '/garden'
+      fullPath: '/garden'
+      preLoaderRoute: typeof GardenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notes/': {
+      id: '/notes/'
+      path: '/notes'
+      fullPath: '/notes/'
+      preLoaderRoute: typeof NotesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notes/$noteId': {
+      id: '/notes/$noteId'
+      path: '/notes/$noteId'
+      fullPath: '/notes/$noteId'
+      preLoaderRoute: typeof NotesNoteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DistractionsRoute: DistractionsRoute,
+  FocusRoute: FocusRoute,
+  GardenRoute: GardenRoute,
+  SettingsRoute: SettingsRoute,
+  NotesNoteIdRoute: NotesNoteIdRoute,
+  NotesIndexRoute: NotesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
